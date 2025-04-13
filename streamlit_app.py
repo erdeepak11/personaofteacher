@@ -1,11 +1,8 @@
 import streamlit as st
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Initialize the OpenAI client with API key from Streamlit secrets
+client = OpenAI(api_key=st.secrets["openai"]["OPENAI_API_KEY"])
 
 # Define your system prompt
 system_prompt = """
@@ -21,7 +18,7 @@ user_input = st.text_input("Apna sawaal poochhiye:")
 if user_input:
     with st.spinner("Soch rahe hain..."):
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_input}
